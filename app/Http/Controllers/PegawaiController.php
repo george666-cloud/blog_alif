@@ -24,12 +24,32 @@ class PegawaiController extends Controller
     {
         DB::table('pegawai')->insert([
             'pegawai_nama'=>$request->nama,
-            'pegawai_jabatan'=>$request->nama,
+            'pegawai_jabatan'=>$request->jabatan,
             'pegawai_umur'=>$request->umur,
             'pegawai_alamat'=>$request->alamat
         ]);
         return redirect('/pegawai');
     }
-    
+    public function edit($id){
+        //mengambil data pegawai yang dipilih  melalui id 
+        $pegawai = DB::table('pegawai')->where('pegawai_id',$id)->get();
+        //passing data yang di ambil dari view.edit
+        return view('edit',['pegawai' => $pegawai]);
+    }
 
+    public function update(Request $request){
+        DB::table('pegawai')->where('pegawai_id',$request->id)->update([
+            'pegawai_nama'=>$request->nama,
+            'pegawai_jabatan'=>$request->jabatan,
+            'pegawai_umur'=>$request->umur,
+            'pegawai_alamat'=>$request->alamat
+        ]);
+        return redirect('/pegawai');
+    }
+
+    public function hapus($id){
+        DB::table('pegawai')->where('pegawai_id',$id)->delete();
+        return redirect('/pegawai');
+    }    
+    
 }
